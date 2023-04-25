@@ -185,7 +185,7 @@ def count_sort(arr):
     output_arr = StaticArray(arr.length())  # this is the array that is returned
 
     for i in range(arr.length()):
-        output_arr.set(count_arr.get(arr.get(i)-min) - 1, arr.get(i))  # adds value to output array in position specified in counting array
+        output_arr.set(count_arr.get(arr.get(i)-min) - 1, arr.get(arr.length()-i-1))  # adds value to output array in position specified in counting array
         temp = count_arr.get(arr.get(i)-min)  # temporary value for previous count
         count_arr.set(arr.get(i)-min, temp - 1)  # subtracts one from count for next one.
 
