@@ -1,103 +1,219 @@
-# Name:
-# OSU Email:
+# Name: Nicholas Slugg
+# OSU Email: sluggn@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
+# Assignment: 1
 # Due Date:
-# Description:
+# Description: This is a series of functions from assignment 1 for reviewing the basics of python
 
 
 import random
-from static_array import *
+from static_array import StaticArray
 
 
 # ------------------- PROBLEM 1 - MIN_MAX -----------------------------------
 
-def min_max(arr: StaticArray) -> (int, int):
-    """
-    TODO: Write this implementation
-    """
-    pass
+def min_max(arr):
+    '''This function finds the minimum and maximum value of a Static Array'''
+
+    min = arr.get(0)  # initialize minimum and maximum value to be first value in array
+    max = arr.get(0)
+
+    for i in range(arr.length()):
+        if arr.get(i) > max:  # if the new value is larger than the current maximum, update
+            max = arr.get(i)
+        elif arr.get(i) < min:# if the new value is smaller than the current minimum, update
+            min = arr.get(i)
+
+    return (min, max)
 
 
 # ------------------- PROBLEM 2 - FIZZ_BUZZ ---------------------------------
 
-def fizz_buzz(arr: StaticArray) -> StaticArray:
-    """
-    TODO: Write this implementation
-    """
-    pass
+def fizz_buzz(arr):
+    '''This function takes a static array as an input and modifys the array, replacing an integer divisible by both
+    5 and 3 with 'fizzbuzz', an integer only divisible by 3 with 'fizz', an integer only divisible by 5 with 'buzz',
+    and all else unchanged'''
+
+    fb_static_array = StaticArray(arr.length())  # initialize new static array
+
+    for i in range(arr.length()):
+        if (arr.get(i) % 3 == 0) and (arr.get(i) % 5 == 0):  # replace integer divisible by 3 and 5 with 'fizzbuzz'
+            fb_static_array.set(i, 'fizzbuzz')
+        elif arr.get(i) % 3 == 0:  # replace integer divisible by 3 only with 'fizz'
+            fb_static_array.set(i, 'fizz')
+        elif arr.get(i) % 5 == 0:  # replace integer divisible by 5 only with 'buzz'
+            fb_static_array.set(i, 'buzz')
+        else:
+            fb_static_array.set(i, arr.get(i))  # for all else, leave unchanged
+
+    return fb_static_array
 
 
 # ------------------- PROBLEM 3 - REVERSE -----------------------------------
 
-def reverse(arr: StaticArray) -> None:
-    """
-    TODO: Write this implementation
-    """
-    pass
+def reverse(arr):
+    '''This function reverses the contents of a static array'''
+    for i in range(arr.length()//2):
+        temp = arr.get(arr.length() - i - 1)  # temporary value
+        arr.set(arr.length() - i - 1, arr.get(i))  # update both values with the opposite
+        arr.set(i, temp)
 
 
 # ------------------- PROBLEM 4 - ROTATE ------------------------------------
 
-def rotate(arr: StaticArray, steps: int) -> StaticArray:
-    """
-    TODO: Write this implementation
-    """
-    pass
+def rotate(arr, steps):
+    """This function rotates a static array"""
+    rot_arr = StaticArray(arr.length())  # initialize new array
+
+    for i in range(0, arr.length()):
+        rot_arr.set(i, arr.get((i - steps) % arr.length()))  # update new array value with one 'steps' positions prior
+
+    return rot_arr
 
 
 # ------------------- PROBLEM 5 - SA_RANGE ----------------------------------
 
-def sa_range(start: int, end: int) -> StaticArray:
-    """
-    TODO: Write this implementation
-    """
-    pass
+def sa_range(start, end):
+    """This function returns a static array of integers from start to end values passed"""
+    sa_arr = StaticArray(abs(end - start) + 1)  # initialize static array
+
+    if end >= start:  # if then statement to determine the direction of the integers
+        d = 1   # ascending
+    else:
+        d = -1  # descending
+
+    for i in range(abs(end - start) + 1):
+        sa_arr.set(i, start + d*i)  # add new integer in direction
+
+    return sa_arr
 
 
 # ------------------- PROBLEM 6 - IS_SORTED ---------------------------------
 
-def is_sorted(arr: StaticArray) -> int:
-    """
-    TODO: Write this implementation
-    """
-    pass
+def is_sorted(arr):
+    """This funtion indicates whether or not a static array is sorted, returning 1 if ascending, -1 if descending, and 0
+    if not ordered"""
+    num = 0  # initial value for variable
+
+    for i in range(arr.length()-1):
+        if arr.get(i) < arr.get(i + 1):
+            num += 1  # adds one for each term that is ascending
+        elif arr.get(i) > arr.get(i + 1):
+            num += -1  # subtracts one for each term descending
+        else:
+            num += 0  # all other terms go to zero
+
+    if arr.length() == 1:
+        return 0  # default case of one element
+    elif abs(num/(arr.length()-1)) < 1:
+        return 0  # if the number has magnitude less than one, cannot be ordered, and 0 is returned
+    else:
+        return num//(arr.length()-1)  # if not, returns the sign of 'num'
 
 
 # ------------------- PROBLEM 7 - FIND_MODE -----------------------------------
 
-def find_mode(arr: StaticArray) -> (int, int):
-    """
-    TODO: Write this implementation
-    """
-    pass
+def find_mode(arr):
+    """This function finds the mode of a static array, returning its value and frequency"""
 
+    p = 0  # initial values for keeping track of repeated values and frequencies
+    max_p = 0
+    n = 1
+    max_n = 1
+
+    for i in range(arr.length() - 1):
+        if arr.get(i) == arr.get(i + 1):
+            n += 1  # if the next value is the same, add 1 to the frequency of this value
+        elif arr.get(i) != arr.get(i + 1):
+            p += n  # if the next one is different, let 'p' point to the new value
+            n = 1  # update current frequency to 1
+
+        if n > max_n:  # if the new frequency is larger than the previous maximum, update index and frequency
+            max_p = p
+            max_n = n
+
+    return (arr.get(max_p), max_n)
 
 # ------------------- PROBLEM 8 - REMOVE_DUPLICATES -------------------------
 
-def remove_duplicates(arr: StaticArray) -> StaticArray:
-    """
-    TODO: Write this implementation
-    """
-    pass
+def remove_duplicates(arr):
+    """This program finds duplicates in a static array, and returns a new one without them"""
+    n_count = 1  # counter for unique values
+    for i in range(arr.length() - 1):
+        if arr.get(i) != arr.get(i+1):
+            n_count += 1  # adds one for each unique value
+
+    new_arr = StaticArray(n_count)  # initializes array for unique values with first element the first from the array
+    new_arr.set(0, arr.get(0))
+
+    n = 1  # counter for unique elements
+
+    for i in range(1, arr.length()):
+        if arr.get(i) != arr.get(i - 1):
+            new_arr.set(n, arr.get(i))  # if new element, add it to new array, and increase counter
+            n += 1
+
+    return new_arr
 
 
 # ------------------- PROBLEM 9 - COUNT_SORT --------------------------------
 
-def count_sort(arr: StaticArray) -> StaticArray:
-    """
-    TODO: Write this implementation
-    """
-    pass
+def count_sort(arr):
+    """This function sorts a static array using the count sort algorithm"""
+    max = arr.get(0)  # First, find the minimum and maximum values so that we can assess the range
+    min = arr.get(0)
+
+    for i in range(1, arr.length()):  # This is similar to min, max algorithm. If an element is greater than previous maximum, update it, same with minimum.
+        if arr.get(i) > max:
+            max = arr.get(i)
+        elif arr.get(i) < min:
+            min = arr.get(i)
+
+    count_arr = StaticArray(abs(max - min)+1)  # Array to count values of each element
+
+    for i in range(count_arr.length()):
+        count_arr.set(i, 0)  # initialize all values to 0 instead of None
+
+    for i in range(arr.length()):
+        temp = count_arr.get(arr.get(i)-min) # temporary value for previous count of an element.
+        count_arr.set(arr.get(i)-min, temp + 1)  # add one for each new count
+
+    for i in range(count_arr.length() - 1):
+        temp = count_arr.get(i+1)  # temporary value for next element
+        count_arr.set(i + 1, temp + count_arr.get(i))  # adds the previous elements values
+
+    output_arr = StaticArray(arr.length())  # this is the array that is returned
+
+    for i in range(arr.length()):
+        output_arr.set(count_arr.get(arr.get(i)-min) - 1, arr.get(i))  # adds value to output array in position specified in counting array
+        temp = count_arr.get(arr.get(i)-min)  # temporary value for previous count
+        count_arr.set(arr.get(i)-min, temp - 1)  # subtracts one from count for next one.
+
+    return output_arr
 
 
 # ------------------- PROBLEM 10 - TRANSFORM_STRING ---------------------------
 
-def transform_string(source: str, s1: str, s2: str) -> str:
-    """
-    TODO: Write this implementation
-    """
-    pass
+def transform_string(source, s1, s2):
+    """This function takes a string as an input, and if an element is upper case, replaces it with a space, if it is
+     lower case, replaces it with hashtag, if it is a digit, replaces it with !, and replaces all else with '='"""
+    TStr = ''
+
+    for i in range(len(source)):
+        for j in range(len(s1)):
+            if source[i] == s1[j]:
+                TStr += s2[j]  # if a character is in s1, replaces it with value from s2
+                break
+        if source[i].isupper():  # replaces upper case characters with space
+            TStr += ' '
+        elif source[i].islower():  # replaces lower case characters with hashtag
+            TStr += '#'
+        elif source[i].isdigit():  # replaces digits with !
+            TStr += '!'
+        else:
+            TStr += '='  # replaces others with equal signs
+
+    return TStr
 
 
 # ------------------- BASIC TESTING -----------------------------------------
@@ -211,6 +327,7 @@ if __name__ == "__main__":
     print('\n# find_mode example 1')
     test_cases = (
         [1, 20, 30, 40, 500, 500, 500],
+        ['A', 'A', 'B', 'C', 'C', 'C', 'C'],
         [2, 2, 2, 2, 1, 1, 1, 1],
         ["zebra", "sloth", "otter", "otter", "moose", "koala"],
         ["Albania", "Belgium", "Chile", "Denmark", "Egypt", "Fiji"]
