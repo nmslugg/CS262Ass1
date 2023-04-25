@@ -104,7 +104,7 @@ def is_sorted(arr):
             num += 0  # all other terms go to zero
 
     if arr.length() == 1:
-        return 0  # default case of one element
+        return 1  # default case of one element
     elif abs(num/(arr.length()-1)) < 1:
         return 0  # if the number has magnitude less than one, cannot be ordered, and 0 is returned
     else:
